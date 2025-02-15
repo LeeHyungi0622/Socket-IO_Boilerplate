@@ -14,14 +14,6 @@
   </head>
 
   <body>
-    <script src="socket.io/socket.io.js"></script>
-    <script>
-      const socket = io()
-
-      socket.on('connect', () => {
-        document.body.innerText = 'connected : ' + socket.id
-        console.log(socket)
-      })
-    </script>
+    <script type="module" src="bundle.js"></script>
   </body>
 </html>
