@@ -6,6 +6,10 @@ socket.on('connect', () => {
   document.body.innerText = `connected : ' + ${socket.id}`
 })
 
+socket.on('disconnect', (message) => {
+  alert('Disconnected from Server \nReason : ' + message)
+})
+
 // socket.on('gameover', (msg) => {
 //   document.body.innerHTML += `<p>${msg}</p>`
 // })
