@@ -2,7 +2,7 @@ import { createServer } from 'http'
 import { Server } from 'socket.io'
 import * as express from 'express'
 import * as path from 'path'
-import LuckyNumbersGame from './luckyNumbersGame'
+import RandomScreenNameGenerator from './randomScreenNameGenerator'
 
 const port = 3000
 
@@ -13,68 +13,28 @@ const server = createServer(app)
 
 const io = new Server(server)
 
-const game = new LuckyNumbersGame()
-
-const players: { [id: string]: { luckyNumber: number; socketId: string } } = {}
+const randomScreenNameGenerator = new RandomScreenNameGenerator()
 
 io.on('connection', (socket) => {
   console.log('a user connected : ' + socket.id)
 
-  socket.on('joining', (uName) => {
-    if (players[uName]) {
-      // existing player. Use the lucky number already registered
-      players[uName].socketId = socket.id // update the reference since each new connection gets a new socket.id
-      socket.emit(
-        'joined',
-        'Hello "' +
-          uName +
-          '", welcome back, your lucky number is ' +
-          players[uName].luckyNumber
-      )
-    } else {
-      // Create a new player with a new lucky number
-      players[uName] = {
-        luckyNumber: Math.floor(Math.random() * 20),
-        socketId: socket.id
-      }
+  let screenName = randomScreenNameGenerator.generateRandomScreenName()
 
-      socket.emit(
-        'joined',
-        'Hello new player named "' +
-          uName +
-          '", your lucky number is ' +
-          players[uName].luckyNumber
-      )
-    }
+  socket.emit('screenName', screenName)
 
-    game.LuckyNumbers[socket.id] = players[uName].luckyNumber
-
-    socket.broadcast.emit('message', 'Everybody, say hello to "' + uName + '"')
-  })
+  socket.broadcast.emit('systemMessage', screenName.name + ' has joined the chat')
 
   socket.on('disconnect', () => {
     console.log('socket disconnected : ' + socket.id)
 
-    const player = Object.keys(players).find((p) => {
-      return players[p].socketId === socket.id
-    })
-    if (player) {
-      socket.broadcast.emit('message', 'Player "' + player + '" has left the building')
-    }
+    socket.broadcast.emit('systemMessage', screenName.name + ' has left the chat')
+  })
+
+  socket.on('chatMessage', (message: ChatMessage) => {
+    socket.broadcast.emit('chatMessage', message)
   })
 })
 
 server.listen(port, () => {
   console.log('Server listening on port ' + port)
 })
-
-setInterval(() => {
-  const randomNumber = Math.floor(Math.random() * 20)
-  const winners = game.GetWinners(randomNumber)
-  if (winners.length) {
-    winners.forEach((w) => {
-      io.to(w).emit('message', '*** You are the winner with ' + randomNumber + ' ***')
-    })
-  }
-  io.emit('message', randomNumber)
-}, 1000)
