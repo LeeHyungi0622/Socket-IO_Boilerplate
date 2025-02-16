@@ -4,124 +4,101 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
-      Simple Chat : Socket.IO TypeScript Tutorials by Sean Bradley :
+      Colab Painter : Socket.IO TypeScript Tutorials by Sean Bradley :
       https://sbcode.net/tssock/
     </title>
     <style>
       body {
-        font-family: Arial;
-      }
-
-      .chatPanel {
-        border: solid 1px gray;
-        border-radius: 20px 0px 4px 4px;
-        box-shadow: 15px 10px #dddddd;
-        background: rgb(34, 193, 195);
-        background: linear-gradient(
-          56deg,
-          rgba(34, 193, 195, 0.49193275943189773) 0%,
-          rgba(253, 187, 45, 0.494733879880077) 100%
-        );
-        position: relative;
-        width: 500px;
-      }
-
-      .chatMessageInputDiv {
-        position: absolute;
-        bottom: 0px;
-        width: 100%;
-      }
-
-      #messageText {
-        width: 400px;
-        font-size: 21px;
-      }
-
-      #sendButton {
-        position: absolute;
-        right: 0px;
-        width: 93px;
-        height: 31px;
-        border-radius: 0;
-        border: 0px;
-        color: #fff;
-        background-color: #17a2b8;
-        border-color: #17a2b8;
-        font-size: 21px;
-      }
-
-      #messageList {
-        padding-left: 0;
         overflow: hidden;
-        height: 338px;
-        margin-bottom: 40px;
+        margin: 0px;
       }
 
-      #messageList li {
-        list-style-type: none;
-        margin-bottom: 30px;
-        padding: 6px 6px 6px 6px;
-        display: block;
+      #canvas {
+        width: 100%;
+        height: 100%;
       }
 
-      .otherMessage {
-        background: #ffcda3;
-        border: solid 1px gray;
-        margin: 0px 5px 5px 0px;
-        float: right;
-        padding: 0px 6px 0px 6px;
-        border-radius: 10px 10px 0 10px;
-        font-size: 21px;
+      #greenButton {
+        background: green;
+        position: absolute;
+        left: 0px;
+        width: 80px;
+        height: 40px;
       }
 
-      .myMessage {
-        background: #1bffbb;
-        border: solid 1px gray;
-        margin: 0px 5px 5px 5px;
-        float: left;
-        padding: 0px 6px 0px 6px;
-        border-radius: 10px 10px 10px 0;
-        font-size: 21px;
+      #blueButton {
+        background: blue;
+        position: absolute;
+        left: 80px;
+        width: 80px;
+        height: 40px;
       }
 
-      .systemMessage {
-        background: #dddddd;
-        border: solid 1px gray;
-        margin: 0px 5px 5px 0px;
-        float: right;
-        padding: 0px 6px 0px 6px;
-        border-radius: 10px 10px 0 10px;
-        font-size: 21px;
+      #redButton {
+        background: red;
+        position: absolute;
+        left: 160px;
+        width: 80px;
+        height: 40px;
       }
 
-      .screenName {
-        padding: 6px 6px 6px 6px;
-        border-radius: 10px 10px 10px 10px;
-        font-weight: bold;
-        background: #1bffbb;
+      #yellowButton {
+        background: yellow;
+        position: absolute;
+        left: 240px;
+        width: 80px;
+        height: 40px;
       }
 
-      .circle {
-        padding: 6px;
-        background: gray;
-        border-radius: 50px;
+      #orangeButton {
+        background: orange;
+        position: absolute;
+        left: 320px;
+        width: 80px;
+        height: 40px;
+      }
+
+      #blackButton {
+        background: black;
+        position: absolute;
+        left: 400px;
+        width: 80px;
+        height: 40px;
+      }
+
+      #whiteButton {
+        background: white;
+        position: absolute;
+        left: 480px;
+        width: 78px;
+        height: 38px;
+        border: 1px solid black;
+      }
+
+      #resetButton {
+        position: absolute;
+        left: 560px;
+        width: 78px;
+        height: 40px;
+        border-radius: 0;
       }
     </style>
   </head>
-
   <body>
-    <h1>Your Screen Name is <span class="screenName"></span></h1>
-    <div class="chatPanel">
-      <ol id="messageList"></ol>
-      <div class="chatMessageInputDiv">
-        <div>
-          <input id="messageText" placeholder="Enter Chat Message" />
-          <span>
-            <button id="sendButton">Send</button>
-          </span>
-        </div>
-      </div>
-    </div>
+    <canvas
+      id="canvas"
+      width="628"
+      height="400"
+      style="position: absolute; top: 40px; border: 5px solid"
+    ></canvas>
+    <div id="greenButton"></div>
+    <div id="blueButton"></div>
+    <div id="redButton"></div>
+    <div id="yellowButton"></div>
+    <div id="orangeButton"></div>
+    <div id="blackButton"></div>
+    <div id="whiteButton"></div>
+    <input id="resetButton" type="button" value="Reset" />
     <script type="module" src="bundle.js"></script>
   </body>
 </html>
